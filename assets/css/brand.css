@@ -1,0 +1,60 @@
+/* Min-Tech — brand tokens from the new logo suite (Sept 2026)
+   Group palette: navy #081a34 + blue #1658a7. Accents: green #008854, lime #a7d309 */
+:root {
+  --green-900:#081a34; --green-800:#0b2a55; --green-700:#0f4587; --green-600:#1658a7;
+  --green-500:#3b78c4; --green-100:#e3ecf7; --green-50:#f2f6fb;
+  --accent:#008854; --accent-2:#a7d309;
+  --scrim-a: rgba(8,26,52,.94); --scrim-b: rgba(10,38,80,.86); --scrim-c: rgba(22,88,167,.55);
+  --pscrim-a: rgba(8,26,52,.93); --pscrim-b: rgba(15,69,135,.78);
+}
+
+/* ---- Motif: three teardrop petals (blue / lime / green), a loop ---- */
+:root { --p1: #1658a7; --p2: #a7d309; --p3: #008854; --tri: linear-gradient(to right, #1658a7 0 33.3%, #a7d309 33.3% 66.6%, #008854 66.6% 100%); }
+/* petal-shaped icon tiles cycling the three colours */
+.card__icon { border-radius: 50% 50% 50% 6px; }
+.cards .card:nth-child(3n+1) .card__icon { background: #e3ecf7; color: var(--p1); }
+.cards .card:nth-child(3n+2) .card__icon { background: #f2f8d3; color: #6b8a00; }
+.cards .card:nth-child(3n+3) .card__icon { background: #dff2ea; color: var(--p3); }
+/* the tri-colour bar is the signature rule */
+.eyebrow { padding-bottom: 10px; background: var(--tri) left bottom / 60px 3px no-repeat; }
+.stats, .card, .tile, .form-card, .product { border-top: 4px solid transparent; background-image: var(--tri); background-size: 100% 4px; background-repeat: no-repeat; background-position: top; background-origin: border-box; }
+/* stat figures cycle the palette */
+.stat:nth-child(3n+1) .stat__num { color: var(--p1); }
+.stat:nth-child(3n+2) .stat__num { color: var(--p3); }
+.stat:nth-child(3n+3) .stat__num { color: #6b8a00; }
+/* checklist ticks cycle too */
+.list-check li:nth-child(3n+1) svg, .advantages li:nth-child(3n+1) svg { background: var(--p1); }
+.list-check li:nth-child(3n+2) svg, .advantages li:nth-child(3n+2) svg { background: var(--p3); }
+.list-check li:nth-child(3n+3) svg, .advantages li:nth-child(3n+3) svg { background: var(--p2); color: #081a34; }
+/* petal corner on photos */
+.split__media img, .mcard__img, .product__media { border-radius: 28px 28px 28px 6px; }
+/* hero: three large ghost petals looping */
+.hero::before { content: ""; position: absolute; right: -6vw; bottom: -14vw; width: 40vw; height: 40vw; z-index: 1; pointer-events: none;
+  background: conic-gradient(from 0deg, rgba(22,88,167,.35) 0 110deg, transparent 110deg 120deg, rgba(167,211,9,.30) 120deg 230deg, transparent 230deg 240deg, rgba(0,136,84,.35) 240deg 350deg, transparent 350deg 360deg);
+  -webkit-mask: radial-gradient(circle, transparent 0 34%, #000 35%, #000 70%, transparent 71%); mask: radial-gradient(circle, transparent 0 34%, #000 35%, #000 70%, transparent 71%);
+  border-radius: 50%; animation: petals 60s linear infinite; }
+@keyframes petals { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .hero::before { animation: none; } }
+/* product cards on the spill page: hover shows a lime edge */
+.product:hover { box-shadow: 0 0 0 3px var(--p2), var(--shadow-md); }
+@media (min-width: 901px) and (max-width: 1120px) { .nav__list a { padding: 12px 8px; font-size: .84rem; letter-spacing: .06em; } .nav__cta { margin-left: 4px; } }
+
+/* Bullets (D): tick inside a petal, cycling blue / green / lime */
+.list-check li::before, .advantages li::before { border-radius: 50% 50% 50% 4px; background-color: var(--p1); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E"); }
+.list-check li:nth-child(3n+2)::before, .advantages li:nth-child(3n+2)::before { background-color: var(--p3); }
+.list-check li:nth-child(3n+3)::before, .advantages li:nth-child(3n+3)::before { background-color: var(--p2); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23081a34' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E"); }
+
+/* Nav hover + active (M2): three petal dots pop in under the label */
+.nav__list a::after { content: ""; position: absolute; left: 50%; right: auto; bottom: 1px; width: 30px; height: 7px; margin-left: -15px; border-radius: 0;
+  background: radial-gradient(circle at 4px 3.5px, var(--p1) 3px, transparent 3.5px), radial-gradient(circle at 15px 3.5px, var(--p2) 3px, transparent 3.5px), radial-gradient(circle at 26px 3.5px, var(--p3) 3px, transparent 3.5px);
+  background-size: 0 100%; background-repeat: no-repeat; transition: background-size .3s steps(3, end); }
+.nav__list a:hover::after, .nav__list a[aria-current="page"]::after { background-size: 100% 100%; background-color: transparent; }
+.site-header--overlay:not(.is-stuck) .nav__list a::after,
+.site-header--overlay:not(.is-stuck) .nav__list a[aria-current="page"]::after { background-image: radial-gradient(circle at 4px 3.5px, #7fa5d0 3px, transparent 3.5px), radial-gradient(circle at 15px 3.5px, var(--p2) 3px, transparent 3.5px), radial-gradient(circle at 26px 3.5px, #5ed6a3 3px, transparent 3.5px); background-color: transparent; }
+.nav__list a:hover { background: none; }
+/* Buttons take the petal shape (M4) instead of the pill */
+.btn, .form-card .btn { border-radius: 22px 22px 22px 4px; }
+.nav__cta .btn { border-radius: 18px 18px 18px 3px; }
+
+/* active state: explicit geometry (the kit default sets height:2px at higher specificity) */
+.nav__list a[aria-current="page"]::after { left: 50%; right: auto; bottom: 1px; width: 30px; height: 7px; margin-left: -15px; border-radius: 0; }
