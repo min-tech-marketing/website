@@ -201,7 +201,6 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .loop__node--right .loop__text { left: calc(100% + 18px); top: 50%; transform: translateY(-50%); }
 .loop__node--left .loop__text { right: calc(100% + 18px); top: 50%; transform: translateY(-50%); text-align: right; }
 .loop__node--top .loop__text, .loop__node--bottom .loop__text { width: 40cqw; }
-.loop__text b { font-size: .8rem; font-weight: 800; letter-spacing: .12em; color: var(--lime-pale); }
 .loop__text h5 { margin: 0; font-size: clamp(1.05rem, 2.2cqw, 1.3rem); font-weight: 800; letter-spacing: -.015em; }
 .loop__text p { margin: 2px 0 0; font-size: clamp(.85rem, 1.7cqw, .98rem); line-height: 1.4; }
 .loop__hub { position: absolute; left: 50%; top: 50%; display: grid; place-content: center; width: 27cqw; aspect-ratio: 1; margin: 0; transform: translate(-50%, -50%); border-radius: 50%; background: var(--core-deep); border: 1px solid var(--line-dark); text-align: center; font-size: clamp(1rem, 2.6cqw, 1.45rem); font-weight: 800; line-height: 1.2; letter-spacing: -.02em; }
