@@ -292,6 +292,12 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .quote blockquote { margin: 0 0 14px; font-size: clamp(1.1rem, 1.8vw, 1.4rem); font-weight: 600; line-height: 1.45; letter-spacing: -.01em; }
 .quote figcaption { color: var(--on-dark-muted); }
 .quote figcaption b { color: var(--lime-pale); }
+/* Sustainability: green block between the white About and Careers sections */
+.sustain { background: radial-gradient(60% 80% at 100% 0%, rgba(165, 205, 57, .2), transparent 70%), var(--core); }
+.sustain .pillar { background: var(--core-2); border-color: var(--line-dark); }
+.sustain .pillar p { color: #fff; }
+.sustain .pillar__icon { background: var(--lime); color: var(--navy); }
+.sustain .quote { background: var(--core-deep); border: 1px solid var(--line-dark); }
 .careers { display: grid; grid-template-columns: 1.2fr 1fr; gap: clamp(32px, 6vw, 80px); align-items: center; }
 .careers h2 { font-size: clamp(1.75rem, 3.2vw, 2.6rem); letter-spacing: -.03em; line-height: 1.15; }
 .careers .btn { margin-top: 12px; }
