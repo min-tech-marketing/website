@@ -178,42 +178,64 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .benefits h4 { margin-bottom: 8px; font-size: 1.2rem; }
 .benefits li { display: flex; gap: 18px; padding: 16px 0; border-bottom: 1px solid var(--line-dark); }
 .benefits li:last-child { border-bottom: 0; padding-bottom: 0; }
-.benefits b, .loop__step b { flex: none; font-size: .85rem; font-weight: 800; color: var(--lime-pale); padding-top: 2px; }
-.benefits h5, .loop__step h5 { margin: 0 0 2px; font-size: 1.05rem; font-weight: 800; letter-spacing: -.01em; }
-.benefits p, .loop__step p { margin: 0; font-size: .95rem; }
+.benefits b { flex: none; font-size: .85rem; font-weight: 800; color: var(--lime-pale); padding-top: 2px; }
+.benefits h5 { margin: 0 0 2px; font-size: 1.05rem; font-weight: 800; letter-spacing: -.01em; }
+.benefits p { margin: 0; font-size: .95rem; }
 
 .loop { margin: clamp(48px, 6vw, 80px) 0 0; padding-top: clamp(40px, 5vw, 64px); border-top: 1px solid var(--line-dark); }
-.loop__title { margin-bottom: 36px; text-align: center; font-size: clamp(1.3rem, 2.2vw, 1.7rem); font-weight: 800; letter-spacing: -.02em; }
-.loop__diagram { position: relative; max-width: 900px; margin-inline: auto; }
-/* Steps run clockwise around the ring: 01 top-left, 02 top-right, 03 bottom-right, 04 bottom-left */
-.loop__steps { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 110px 200px; }
-.loop__step:nth-child(3) { grid-column: 2; grid-row: 2; }
-.loop__step:nth-child(4) { grid-column: 1; grid-row: 2; }
-.loop__step { padding: 24px 26px; border: 1px solid var(--line-dark); border-radius: var(--radius-lg); background: var(--core-deep); }
-.loop__step b { display: block; margin-bottom: 10px; }
-.loop__ring { position: absolute; left: 50%; top: 50%; z-index: 0; width: 300px; height: 300px; transform: translate(-50%, -50%); color: var(--lime); overflow: visible; }
-.loop__hub { position: absolute; left: 50%; top: 50%; z-index: 2; display: grid; place-items: center; width: 76px; height: 76px; transform: translate(-50%, -50%); border-radius: 50%; background: var(--lime); color: var(--navy); box-shadow: 0 0 0 10px rgba(165, 205, 57, .18); }
-.loop__hub svg { width: 36px; height: 36px; }
-@media (prefers-reduced-motion: no-preference) { .loop__hub svg { animation: loop-spin 8s linear infinite; } }
-@keyframes loop-spin { to { transform: rotate(360deg); } }
+.loop__title { margin-bottom: 20px; text-align: center; font-size: clamp(1.3rem, 2.2vw, 1.7rem); font-weight: 800; letter-spacing: -.02em; }
+/* Circular graphic: ring drawn in a 900x600 SVG; nodes sit on its four points (top, right, bottom, left)
+   and their labels sit outside the ring. Sizes use container units so it all scales together. */
+.loop__graphic { position: relative; max-width: 900px; margin: clamp(70px, 9vw, 96px) auto clamp(60px, 8vw, 84px); aspect-ratio: 3 / 2; container-type: inline-size; }
+.loop__ring { position: absolute; inset: 0; width: 100%; height: 100%; color: var(--lime); }
+.loop__node { --s: clamp(56px, 9.4cqw, 84px); position: absolute; width: var(--s); height: var(--s); margin: calc(var(--s) / -2) 0 0 calc(var(--s) / -2); }
+.loop__node--top { left: 50%; top: 16.667%; }
+.loop__node--right { left: 72.222%; top: 50%; }
+.loop__node--bottom { left: 50%; top: 83.333%; }
+.loop__node--left { left: 27.778%; top: 50%; }
+.loop__icon { display: grid; place-items: center; width: 100%; height: 100%; border-radius: 50%; background: var(--lime); color: var(--navy); box-shadow: 0 0 0 8px rgba(165, 205, 57, .2); }
+.loop__icon svg { width: 46%; height: 46%; }
+.loop__text { position: absolute; width: 22cqw; }
+.loop__node--top .loop__text { bottom: calc(100% + 16px); left: 50%; transform: translateX(-50%); text-align: center; }
+.loop__node--bottom .loop__text { top: calc(100% + 16px); left: 50%; transform: translateX(-50%); text-align: center; }
+.loop__node--right .loop__text { left: calc(100% + 18px); top: 50%; transform: translateY(-50%); }
+.loop__node--left .loop__text { right: calc(100% + 18px); top: 50%; transform: translateY(-50%); text-align: right; }
+.loop__node--top .loop__text, .loop__node--bottom .loop__text { width: 40cqw; }
+.loop__text b { font-size: .8rem; font-weight: 800; letter-spacing: .12em; color: var(--lime-pale); }
+.loop__text h5 { margin: 0; font-size: clamp(1.05rem, 2.2cqw, 1.3rem); font-weight: 800; letter-spacing: -.015em; }
+.loop__text p { margin: 2px 0 0; font-size: clamp(.85rem, 1.7cqw, .98rem); line-height: 1.4; }
+.loop__hub { position: absolute; left: 50%; top: 50%; display: grid; place-content: center; width: 27cqw; aspect-ratio: 1; margin: 0; transform: translate(-50%, -50%); border-radius: 50%; background: var(--core-deep); border: 1px solid var(--line-dark); text-align: center; font-size: clamp(1rem, 2.6cqw, 1.45rem); font-weight: 800; line-height: 1.2; letter-spacing: -.02em; }
+.loop__hub span { color: var(--lime-pale); }
+@media (prefers-reduced-motion: no-preference) {
+  .loop__ring g { animation: loop-flow 1.6s linear infinite; }
+}
+@keyframes loop-flow { to { stroke-dashoffset: -28; } }
+/* Narrow screens: same graphic as a vertical track */
+@media (max-width: 720px) {
+  .loop__graphic { aspect-ratio: auto; margin: 28px 0 0; display: flex; flex-direction: column; gap: 24px; }
+  .loop__ring { display: none; }
+  .loop__nodes { position: relative; display: grid; gap: 22px; }
+  .loop__nodes::before { content: ""; position: absolute; left: 30px; top: 30px; bottom: 30px; border-left: 3px dotted var(--lime); }
+  .loop__node, .loop__node--top, .loop__node--right, .loop__node--bottom, .loop__node--left { --s: 60px; position: relative; left: auto; top: auto; display: flex; align-items: center; gap: 18px; width: auto; height: auto; margin: 0; }
+  .loop__icon { flex: none; width: var(--s); height: var(--s); box-shadow: 0 0 0 6px rgba(165, 205, 57, .2); }
+  .loop__node .loop__text, .loop__node--top .loop__text, .loop__node--bottom .loop__text { position: static; width: auto; transform: none; text-align: left; }
+  .loop__text h5 { font-size: 1.1rem; }
+  .loop__text p { font-size: .95rem; }
+  .loop__hub { position: static; width: auto; aspect-ratio: auto; transform: none; padding: 16px 20px; border-radius: var(--radius); font-size: 1.1rem; }
+  .loop__hub br { display: none; }
+}
 @media (max-width: 860px) {
   .case__intro { grid-template-columns: 1fr; }
-  .loop__steps { grid-template-columns: 1fr; gap: 0; }
-  .loop__step:nth-child(n) { grid-column: auto; grid-row: auto; }
-  .loop__step { position: relative; margin-bottom: 34px; }
-  .loop__step:last-child { margin-bottom: 0; }
-  /* down arrows between stacked steps, and a loop-back mark on the last one */
-  .loop__step:not(:last-child)::after { content: "\2193"; position: absolute; left: 50%; bottom: -30px; transform: translateX(-50%); color: var(--lime); font-weight: 800; font-size: 1.2rem; }
-  .loop__ring, .loop__hub { display: none; }
 }
 
 /* ---------- Buy back ---------- */
 .buyback { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 6vw, 88px); align-items: center; }
 .buyback__copy p:not(.lede) { color: var(--on-dark-muted); }
-.steps { display: grid; gap: 14px; counter-reset: none; }
+.steps__title { margin-bottom: 18px; font-size: clamp(1.3rem, 2.2vw, 1.6rem); }
+.steps { display: grid; gap: 14px; }
 .steps li { display: flex; gap: 22px; padding: 24px 26px; border: 1px solid var(--line-dark); border-radius: var(--radius); background: rgba(255, 255, 255, .06); }
 .steps b { flex: none; display: grid; place-items: center; width: 46px; height: 46px; border-radius: 14px; background: var(--lime); color: var(--navy); font-weight: 800; }
-.steps h3 { margin-bottom: 4px; font-size: 1.1rem; }
+.steps h4 { margin-bottom: 4px; font-size: 1.1rem; }
 .steps p { margin: 0; font-size: .96rem; color: var(--on-dark-muted); }
 @media (max-width: 900px) { .buyback { grid-template-columns: 1fr; } }
 
