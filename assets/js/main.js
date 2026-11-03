@@ -85,13 +85,13 @@
     if (link) choose(link.getAttribute('data-topic'));
   });
 
-  // Not wired to an inbox yet: keep the visitor on the page and point to the phone number
+  // Not wired to an inbox yet: keep the visitor on the page and say so
   var form = select.form;
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     if (!form.reportValidity()) return;
     var note = form.querySelector('.form-note');
-    note.innerHTML = 'Thanks! This form is not connected to an inbox yet, so please call us at <a href="tel:+17056320111">(705) 632-0111</a>.';
+    note.textContent = 'Thanks! This form is not connected to an inbox yet, so your message was not sent.';
   });
 })();
 
