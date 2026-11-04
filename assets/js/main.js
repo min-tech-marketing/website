@@ -69,29 +69,39 @@
   Array.prototype.forEach.call(sections, function (s) { observer.observe(s); });
 })();
 
-/* Contact form: preselect the topic from ?topic= or from the link that was clicked */
+/* HubSpot contact form: tick the matching "I'm Interested In" option from ?topic= or from the button that was clicked */
 (function () {
-  var select = document.getElementById('topic');
-  if (!select) return;
+  var TOPICS = {
+    buyback: 'Join the Buy Back Program - I have plastic scrap to sell',
+    recycling: 'Advanced Recycling Services',
+    destruction: 'Plastic Waste Destruction',
+    custom: 'Custom Materials Recovery & Product Design Services',
+    careers: 'Careers',
+    general: 'Other'
+  };
+  var form = null;
+  var pending = new URLSearchParams(window.location.search).get('topic');
+  var autoTicked = null;
 
-  function choose(value) {
-    if (value && select.querySelector('option[value="' + value + '"]')) select.value = value;
+  function choose(key) {
+    pending = key;
+    if (!form || !TOPICS[key]) return;
+    var box = form.querySelector('input[name="service_interested_in_mintech"][value="' + TOPICS[key] + '"]');
+    // click() rather than setting .checked, so HubSpot's own form state updates too
+    if (autoTicked && autoTicked !== box && autoTicked.checked) autoTicked.click();
+    if (box && !box.checked) box.click();
+    autoTicked = box;
   }
 
-  choose(new URLSearchParams(window.location.search).get('topic'));
+  // Called from the hbspt.forms.create onFormReady callback in index.html
+  window.mtContactFormReady = function (f) {
+    form = f && f.querySelector ? f : (f && f[0]) || document.querySelector('#hubspot-contact-form form');
+    if (pending) choose(pending);
+  };
 
   document.addEventListener('click', function (e) {
     var link = e.target.closest('a[data-topic]');
     if (link) choose(link.getAttribute('data-topic'));
-  });
-
-  // Not wired to an inbox yet: keep the visitor on the page and say so
-  var form = select.form;
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    if (!form.reportValidity()) return;
-    var note = form.querySelector('.form-note');
-    note.textContent = 'Thanks! This form is not connected to an inbox yet, so your message was not sent.';
   });
 })();
 
