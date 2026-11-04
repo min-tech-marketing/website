@@ -116,18 +116,20 @@
   Array.prototype.forEach.call(cars, function (c, i) { c.style.transitionDelay = (0.4 + i * 0.08) + 's'; });
   panel.classList.add('impact--animate');
 
-  function format(n, el) { return n.toLocaleString('en-CA') + (el.textContent.indexOf('%') > -1 ? '%' : ''); }
+  function suffix(el) { return el.getAttribute('data-suffix') || (el.textContent.indexOf('%') > -1 ? '%' : ''); }
 
   var observer = new IntersectionObserver(function (entries) {
     if (!entries[0].isIntersecting) return;
     observer.disconnect();
     panel.classList.add('is-visible');
     counters.forEach(function (el) {
-      var target = +el.getAttribute('data-count'), start = null, dur = 1400;
+      // small numbers (like 4 million) count in decimals so the climb is smooth; the final text is restored exactly
+      var target = +el.getAttribute('data-count'), decimals = +(el.getAttribute('data-decimals') || 0);
+      var finalText = el.textContent, end = suffix(el), start = null, dur = 1400;
       function step(t) {
         if (!start) start = t;
-        var p = Math.min((t - start) / dur, 1), eased = 1 - Math.pow(1 - p, 3);
-        el.textContent = format(Math.round(target * eased), el);
+        var p = Math.min((t - start) / dur, 1), v = target * (1 - Math.pow(1 - p, 3));
+        el.textContent = p < 1 ? (decimals ? v.toFixed(decimals) : Math.round(v).toLocaleString('en-CA')) + end : finalText;
         if (p < 1) requestAnimationFrame(step);
       }
       requestAnimationFrame(step);

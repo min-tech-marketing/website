@@ -216,7 +216,32 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .impact__check { fill: none; stroke: #fff; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; transform: rotate(90deg); transform-origin: 60px 60px; }
 .impact__ref { margin-left: 2px; color: var(--lime-pale); font-weight: 800; text-decoration: none; }
 .impact__note { margin: 0; font-size: .74rem; line-height: 1.5; color: rgba(255, 255, 255, .78); }
+/* Lead stat on top, the two supporting stats side by side and smaller beneath it */
+.impact__stat--lead .impact__big strong { position: relative; font-size: clamp(3rem, 6vw, 4.4rem); }
+.impact__stat--lead .impact__big strong::after { content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 4px; border-radius: 2px; background: var(--lime); transform-origin: left; }
+.impact__stat--lead .impact__label { margin-top: 16px; }
+.impact__row { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; padding-bottom: 22px; border-bottom: 1px dashed rgba(255, 255, 255, .22); }
+.impact__row .impact__stat { padding-bottom: 0; border-bottom: 0; }
+.impact__stat--sm .impact__big strong { font-size: clamp(1.8rem, 2.8vw, 2.3rem); }
+.impact__stat--sm .impact__big span { font-size: .85rem; }
+.impact__stat--sm .impact__label { font-size: .8rem; }
+.impact__stat--sm .impact__cars { gap: 4px; margin: 12px 0 6px; }
+.impact__stat--sm .impact__cars svg { width: 16px; height: 16px; }
+.impact__stat--sm .impact__equiv { font-size: .75rem; }
+.impact__stat--sm.impact__stat--ring { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.impact__stat--sm .impact__ring { width: 72px; height: 72px; }
+.impact__check { stroke-dasharray: 60; stroke-dashoffset: 0; transition: stroke-dashoffset .5s ease-out 1.5s; }
+@media (max-width: 420px) { .impact__row { grid-template-columns: 1fr; } }
+
 /* animated state, switched on by main.js only when motion is allowed */
+.impact--animate .impact__stat { transition: opacity .6s ease, transform .6s ease; }
+.impact--animate .impact__stat--lead { transition-delay: .05s; }
+.impact--animate .impact__row .impact__stat:first-child { transition-delay: .25s; }
+.impact--animate .impact__row .impact__stat:last-child { transition-delay: .45s; }
+.impact--animate:not(.is-visible) .impact__stat { opacity: 0; transform: translateY(16px); }
+.impact--animate .impact__stat--lead .impact__big strong::after { transition: transform 1.2s cubic-bezier(.2, .7, .2, 1) .3s; }
+.impact--animate:not(.is-visible) .impact__stat--lead .impact__big strong::after { transform: scaleX(0); }
+.impact--animate:not(.is-visible) .impact__check { stroke-dashoffset: 60; }
 .impact--animate .impact__cars svg { transition: opacity .3s ease, transform .3s ease; }
 .impact--animate:not(.is-visible) .impact__cars svg { opacity: 0; transform: translateY(6px); }
 .impact--animate:not(.is-visible) .impact__ring-fill { stroke-dashoffset: 100; }
