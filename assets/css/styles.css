@@ -73,9 +73,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
    --header-h is the shrunk height (used for anchor offsets); --header-h-lg the arrival height. */
 .site-header { position: fixed; inset: 0 0 auto; z-index: 50; }
 .topbar { background: var(--core); color: #fff; font-size: .752rem; }
-.topbar__inner { display: flex; align-items: center; justify-content: space-between; min-height: 38px; }
-.topbar__meta a { color: inherit; text-decoration: none; }
-.topbar__meta a:hover { text-decoration: underline; }
+.topbar__inner { display: flex; align-items: center; justify-content: flex-end; min-height: 38px; }
 .topbar__nav ul { display: flex; gap: 4px; }
 .topbar__nav a { display: block; padding: 6px 12px; color: #fff; font-weight: 600; letter-spacing: .04em; text-decoration: none; border-radius: 999px; }
 .topbar__nav a:hover { background: rgba(255, 255, 255, .14); }
@@ -208,19 +206,22 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .impact--animate:not(.is-visible) .impact__ring-fill { stroke-dashoffset: 100; }
 /* Benefits: compact cards, smaller than the cards elsewhere on the site */
 .benefits { margin-top: clamp(40px, 5vw, 56px); }
-.benefits h4 { margin-bottom: 18px; font-size: 1.128rem; }
-.benefits__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; }
+.benefits h4 { margin-bottom: 18px; font-size: 1.128rem; text-align: center; }
+/* cards wrap and stay centred, so a short last row sits in the middle */
+.benefits__grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.benefits__grid .benefit { flex: 0 1 272px; }
+@media (max-width: 620px) { .benefits__grid .benefit { flex-basis: 100%; } }
 .benefit { display: flex; gap: 14px; padding: 16px 18px; border: 1px solid var(--line-dark); border-radius: var(--radius); background: var(--core-deep); }
 .benefit__icon { flex: none; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 11px; background: var(--lime); color: var(--navy); }
 .benefit__icon svg { width: 20px; height: 20px; }
 .benefit h5 { margin: 2px 0 3px; font-size: .94rem; font-weight: 800; letter-spacing: -.01em; }
 .benefit p { margin: 0; font-size: .827rem; line-height: 1.5; }
 
-.loop { margin: clamp(48px, 6vw, 80px) 0 0; padding-top: clamp(40px, 5vw, 64px); border-top: 1px solid var(--line-dark); }
+.loop { margin: clamp(56px, 7vw, 88px) 0 0; }
 .loop__title { margin-bottom: 20px; text-align: center; font-size: clamp(1.222rem, 2.068vw, 1.598rem); font-weight: 800; letter-spacing: -.02em; }
 /* Circular graphic: ring drawn in a 900x600 SVG; nodes sit on its four points (top, right, bottom, left)
    and their labels sit outside the ring. Sizes use container units so it all scales together. */
-.loop__graphic { position: relative; max-width: 900px; margin: clamp(70px, 9vw, 96px) auto clamp(60px, 8vw, 84px); aspect-ratio: 3 / 2; container-type: inline-size; }
+.loop__graphic { position: relative; max-width: 900px; margin: clamp(70px, 9vw, 96px) auto clamp(12px, 1.4vw, 20px); aspect-ratio: 3 / 2; container-type: inline-size; }
 .loop__ring { position: absolute; inset: 0; width: 100%; height: 100%; color: var(--lime); }
 .loop__node { --s: clamp(56px, 9.4cqw, 84px); position: absolute; width: var(--s); height: var(--s); margin: calc(var(--s) / -2) 0 0 calc(var(--s) / -2); }
 .loop__node--top { left: 50%; top: 16.667%; }
