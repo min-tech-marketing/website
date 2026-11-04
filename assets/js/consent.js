@@ -1,0 +1,132 @@
+/* Cookie consent for Min-Tech (same pattern as the other CLN sites).
+   Loaded in <head> so stored choices apply before anything else runs.
+
+   - Analytics (Microsoft Clarity) is off until the visitor opts in, and its
+     script is only loaded after opt-in.
+   - The choice is stored in localStorage for 12 months, then asked again.
+   - Any element with [data-cookie-settings] reopens the preferences.
+   - PRIVACY_URL adds a "Read our Privacy Policy" link to the banner; leave it empty to hide the link. */
+(function () {
+  var STORAGE_KEY = 'mt-cookie-consent';
+  var VERSION = 1;
+  var MAX_AGE_MS = 365 * 24 * 60 * 60 * 1000;
+  var CLARITY_ID = 'z8e45o6ak9';
+  var PRIVACY_URL = 'privacy-policy.html#cookies';
+
+  function read() {
+    try {
+      var c = JSON.parse(localStorage.getItem(STORAGE_KEY));
+      if (!c || c.v !== VERSION || Date.now() - c.ts > MAX_AGE_MS) return null;
+      return c;
+    } catch (e) { return null; }
+  }
+
+  function save(c) {
+    c.v = VERSION; c.ts = Date.now();
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(c)); } catch (e) {}
+  }
+
+  var loaded = {};
+  function loadScript(id, src) {
+    if (loaded[id]) return;
+    loaded[id] = true;
+    var s = document.createElement('script');
+    s.async = true; s.defer = true; s.id = id; s.src = src;
+    document.head.appendChild(s);
+  }
+
+  function apply(c) {
+    if (c.analytics && !loaded.clarity) {
+      window.clarity = window.clarity || function () { (window.clarity.q = window.clarity.q || []).push(arguments); };
+      loadScript('clarity', 'https://www.clarity.ms/tag/' + CLARITY_ID);
+    }
+    // Clarity requires an explicit consent signal (enforced for EEA/UK/CH visitors).
+    if (c.analytics && window.clarity) {
+      window.clarity('consentv2', { analytics_Storage: 'granted', ad_Storage: 'denied' });
+    }
+  }
+
+  function choose(c, wasSet) {
+    var revoked = wasSet && wasSet.analytics && !c.analytics;
+    save(c);
+    apply(c);
+    hide();
+    // Scripts already running can't be unloaded; reload so withdrawn consent takes effect.
+    if (revoked) window.location.reload();
+  }
+
+  var stored = read();
+  if (stored) apply(stored);
+
+  /* ---------- Banner UI ---------- */
+  var root;
+
+  function build() {
+    root = document.createElement('div');
+    root.className = 'cookie-consent';
+    root.setAttribute('role', 'dialog');
+    root.setAttribute('aria-labelledby', 'cookie-consent-title');
+    root.setAttribute('aria-describedby', 'cookie-consent-desc');
+    root.hidden = true;
+    root.innerHTML =
+      '<div class="cookie-consent__panel">' +
+        '<div id="cookie-consent-title" class="cookie-consent__title">We value your privacy</div>' +
+        '<p id="cookie-consent-desc" class="cookie-consent__text">We use cookies to understand how visitors use our site so we can improve it. ' +
+          'You can accept all, reject non-essential cookies, or choose which to allow.' +
+          (PRIVACY_URL ? ' <a href="' + PRIVACY_URL + '">Read our Privacy Policy</a>' : '') + '</p>' +
+        '<div class="cookie-consent__prefs" hidden>' +
+          '<label class="cookie-consent__option"><input type="checkbox" checked disabled>' +
+            '<span><strong>Essential</strong> Required for the site to work. Always on.</span></label>' +
+          '<label class="cookie-consent__option"><input type="checkbox" name="analytics">' +
+            '<span><strong>Analytics</strong> Microsoft Clarity helps us see which pages are useful and how visitors navigate the site.</span></label>' +
+        '</div>' +
+        '<div class="cookie-consent__actions">' +
+          '<button type="button" class="btn btn--outline" data-action="manage">Manage preferences</button>' +
+          '<button type="button" class="btn btn--outline" data-action="save" hidden>Save preferences</button>' +
+          '<button type="button" class="btn btn--outline" data-action="reject">Reject all</button>' +
+          '<button type="button" class="btn btn--primary" data-action="accept">Accept all</button>' +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(root);
+
+    var prefs = root.querySelector('.cookie-consent__prefs');
+    var manageBtn = root.querySelector('[data-action="manage"]');
+    var saveBtn = root.querySelector('[data-action="save"]');
+
+    root.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-action]');
+      if (!btn) return;
+      var prev = read();
+      var action = btn.getAttribute('data-action');
+      if (action === 'accept') choose({ analytics: true }, prev);
+      else if (action === 'reject') choose({ analytics: false }, prev);
+      else if (action === 'manage') {
+        prefs.hidden = false; manageBtn.hidden = true; saveBtn.hidden = false;
+        prefs.querySelector('input[name="analytics"]').focus();
+      } else if (action === 'save') {
+        choose({ analytics: prefs.querySelector('input[name="analytics"]').checked }, prev);
+      }
+    });
+  }
+
+  function show(openPrefs) {
+    if (!root) build();
+    var c = read() || { analytics: false };
+    root.querySelector('input[name="analytics"]').checked = !!c.analytics;
+    var prefs = root.querySelector('.cookie-consent__prefs');
+    prefs.hidden = !openPrefs;
+    root.querySelector('[data-action="manage"]').hidden = !!openPrefs;
+    root.querySelector('[data-action="save"]').hidden = !openPrefs;
+    root.hidden = false;
+    root.querySelector(openPrefs ? 'input[name="analytics"]' : '[data-action="accept"]').focus({ preventScroll: true });
+  }
+
+  function hide() { if (root) root.hidden = true; }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    if (!stored) show(false);
+    document.addEventListener('click', function (e) {
+      if (e.target.closest('[data-cookie-settings]')) { e.preventDefault(); show(true); }
+    });
+  });
+})();
