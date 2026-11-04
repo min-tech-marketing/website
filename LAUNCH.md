@@ -21,15 +21,26 @@ plus up to an hour for DNS to settle everywhere. The old site stops being served
 
 ## 2. Cloudflare DNS (you)
 
-Replace the existing `@` and `www` records (currently proxied A records) with:
+`min-tech.ca` (`@`) currently has A records, not a CNAME. A name can't have an A record and a CNAME
+at the same time, so the simplest change is to **edit the existing records** rather than add new ones:
 
-| Type  | Name  | Target                                  | Proxy status          |
-|-------|-------|-----------------------------------------|-----------------------|
-| CNAME | `@`   | `111a38e6b21cb38c.vercel-dns-016.com`   | **DNS only** (grey cloud) |
-| CNAME | `www` | `111a38e6b21cb38c.vercel-dns-016.com`   | **DNS only** (grey cloud) |
+**`@` (min-tech.ca)**: edit the existing A record(s) so there are exactly two:
 
-- Cloudflare allows a CNAME on `@` (it flattens it automatically).
-- If Cloudflare won't accept the `@` CNAME, use two A records on `@` instead: `216.150.1.1` and `216.150.16.1` (DNS only).
+| Type | Name | IPv4 address    | Proxy status              |
+|------|------|-----------------|---------------------------|
+| A    | `@`  | `216.150.1.1`   | **DNS only** (grey cloud) |
+| A    | `@`  | `216.150.16.1`  | **DNS only** (grey cloud) |
+
+Delete any other A or AAAA records on `@`.
+
+**`www`**: if it's a CNAME, change its target. If it's an A record, delete it and add the CNAME:
+
+| Type  | Name  | Target                                | Proxy status              |
+|-------|-------|---------------------------------------|---------------------------|
+| CNAME | `www` | `111a38e6b21cb38c.vercel-dns-016.com` | **DNS only** (grey cloud) |
+
+(Alternative for `www`: the same two A records as `@` also work.)
+
 - Proxy must be off (grey cloud), or Vercel can't issue the SSL certificate.
 - Any Cloudflare redirect rules for min-tech.ca stop applying once the proxy is off; that's expected.
 
