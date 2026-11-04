@@ -1,25 +1,26 @@
 /* Cookie consent for Min-Tech (same pattern as the other CLN sites).
    Loaded in <head> before the Google tag so consent defaults apply first.
 
-   - Analytics (Google Analytics, Microsoft Clarity) is off until the visitor opts in.
+   - Analytics (Google Analytics, Microsoft Clarity) and Marketing (HubSpot)
+     are off until the visitor opts in.
    - Google Analytics always loads, but in Consent Mode: no cookies are set
      unless analytics is accepted.
-   - Clarity is only loaded after opt-in.
+   - Clarity and HubSpot tracking are only loaded after opt-in.
    - The choice is stored in localStorage for 12 months, then asked again.
    - Any element with [data-cookie-settings] reopens the preferences.
    - PRIVACY_URL adds a "Read our Privacy Policy" link to the banner; leave it empty to hide the link. */
 (function () {
   var STORAGE_KEY = 'mt-cookie-consent';
-  var VERSION = 1;
+  var VERSION = 2; // bumped when the Marketing category was added, so everyone is asked again
   var MAX_AGE_MS = 365 * 24 * 60 * 60 * 1000;
   var CLARITY_ID = 'z8e45o6ak9';
+  var HUBSPOT_SRC = '//js-na3.hs-scripts.com/343635070.js';
   var PRIVACY_URL = 'privacy-policy.html#cookies';
 
   window.dataLayer = window.dataLayer || [];
   function gtag() { dataLayer.push(arguments); }
   window.gtag = window.gtag || gtag;
 
-  // Min-Tech has no advertising or marketing tools, so ad signals stay denied.
   gtag('consent', 'default', {
     analytics_storage: 'denied',
     ad_storage: 'denied',
@@ -51,19 +52,25 @@
   }
 
   function apply(c) {
-    window.gtag('consent', 'update', { analytics_storage: c.analytics ? 'granted' : 'denied' });
+    window.gtag('consent', 'update', {
+      analytics_storage: c.analytics ? 'granted' : 'denied',
+      ad_storage: c.marketing ? 'granted' : 'denied',
+      ad_user_data: c.marketing ? 'granted' : 'denied',
+      ad_personalization: c.marketing ? 'granted' : 'denied'
+    });
     if (c.analytics && !loaded.clarity) {
       window.clarity = window.clarity || function () { (window.clarity.q = window.clarity.q || []).push(arguments); };
       loadScript('clarity', 'https://www.clarity.ms/tag/' + CLARITY_ID);
     }
     // Clarity requires an explicit consent signal (enforced for EEA/UK/CH visitors).
     if (c.analytics && window.clarity) {
-      window.clarity('consentv2', { analytics_Storage: 'granted', ad_Storage: 'denied' });
+      window.clarity('consentv2', { analytics_Storage: 'granted', ad_Storage: c.marketing ? 'granted' : 'denied' });
     }
+    if (c.marketing) loadScript('hs-script-loader', HUBSPOT_SRC);
   }
 
   function choose(c, wasSet) {
-    var revoked = wasSet && wasSet.analytics && !c.analytics;
+    var revoked = wasSet && ((wasSet.analytics && !c.analytics) || (wasSet.marketing && !c.marketing));
     save(c);
     apply(c);
     hide();
@@ -87,7 +94,7 @@
     root.innerHTML =
       '<div class="cookie-consent__panel">' +
         '<div id="cookie-consent-title" class="cookie-consent__title">We value your privacy</div>' +
-        '<p id="cookie-consent-desc" class="cookie-consent__text">We use cookies to understand how visitors use our site so we can improve it. ' +
+        '<p id="cookie-consent-desc" class="cookie-consent__text">We use cookies to understand how visitors use our site and to improve our marketing. ' +
           'You can accept all, reject non-essential cookies, or choose which to allow.' +
           (PRIVACY_URL ? ' <a href="' + PRIVACY_URL + '">Read our Privacy Policy</a>' : '') + '</p>' +
         '<div class="cookie-consent__prefs" hidden>' +
@@ -95,6 +102,8 @@
             '<span><strong>Essential</strong> Required for the site to work. Always on.</span></label>' +
           '<label class="cookie-consent__option"><input type="checkbox" name="analytics">' +
             '<span><strong>Analytics</strong> Google Analytics and Microsoft Clarity help us see which pages are useful and how visitors navigate the site.</span></label>' +
+          '<label class="cookie-consent__option"><input type="checkbox" name="marketing">' +
+            '<span><strong>Marketing</strong> HubSpot helps us follow up on enquiries and measure our campaigns.</span></label>' +
         '</div>' +
         '<div class="cookie-consent__actions">' +
           '<button type="button" class="btn btn--outline" data-action="manage">Manage preferences</button>' +
@@ -114,21 +123,25 @@
       if (!btn) return;
       var prev = read();
       var action = btn.getAttribute('data-action');
-      if (action === 'accept') choose({ analytics: true }, prev);
-      else if (action === 'reject') choose({ analytics: false }, prev);
+      if (action === 'accept') choose({ analytics: true, marketing: true }, prev);
+      else if (action === 'reject') choose({ analytics: false, marketing: false }, prev);
       else if (action === 'manage') {
         prefs.hidden = false; manageBtn.hidden = true; saveBtn.hidden = false;
         prefs.querySelector('input[name="analytics"]').focus();
       } else if (action === 'save') {
-        choose({ analytics: prefs.querySelector('input[name="analytics"]').checked }, prev);
+        choose({
+          analytics: prefs.querySelector('input[name="analytics"]').checked,
+          marketing: prefs.querySelector('input[name="marketing"]').checked
+        }, prev);
       }
     });
   }
 
   function show(openPrefs) {
     if (!root) build();
-    var c = read() || { analytics: false };
+    var c = read() || { analytics: false, marketing: false };
     root.querySelector('input[name="analytics"]').checked = !!c.analytics;
+    root.querySelector('input[name="marketing"]').checked = !!c.marketing;
     var prefs = root.querySelector('.cookie-consent__prefs');
     prefs.hidden = !openPrefs;
     root.querySelector('[data-action="manage"]').hidden = !!openPrefs;

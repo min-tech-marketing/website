@@ -181,7 +181,31 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .case__intro h3 { font-size: clamp(1.598rem, 2.82vw, 2.256rem); letter-spacing: -.03em; }
 .case__intro .btn { margin-top: 10px; }
 .case__intro { align-items: center; }
-.case__graphic { display: grid; place-items: center; width: 100%; aspect-ratio: 4 / 3; border: 2px dashed rgba(255, 255, 255, .35); border-radius: var(--radius-lg); background: rgba(0, 70, 43, .3); color: rgba(255, 255, 255, .75); font-size: .846rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+/* Case study impact infographic */
+.impact { display: grid; gap: 22px; margin: 0; padding: clamp(24px, 3vw, 36px); border: 1px solid var(--line-dark); border-radius: var(--radius-lg); background: var(--core-deep); }
+.impact__kicker { font-size: .705rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--lime-pale); }
+.impact__stat { padding-bottom: 22px; border-bottom: 1px dashed rgba(255, 255, 255, .22); }
+.impact__pre { display: block; font-size: .8rem; font-weight: 700; color: rgba(255, 255, 255, .8); }
+.impact__big { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; margin: 0; }
+.impact__big strong { font-size: clamp(2.6rem, 5vw, 3.8rem); font-weight: 800; line-height: 1; letter-spacing: -.04em; color: var(--lime); font-variant-numeric: tabular-nums; }
+.impact__big span { font-size: 1.1rem; font-weight: 800; }
+.impact__label { margin: 6px 0 0; font-size: .94rem; font-weight: 600; }
+.impact__cars { display: flex; flex-wrap: wrap; gap: 6px; margin: 18px 0 8px; color: var(--lime); }
+.impact__cars svg { width: 28px; height: 28px; }
+.impact__equiv { margin: 0; font-size: .846rem; color: rgba(255, 255, 255, .85); }
+.impact__equiv strong { color: var(--lime-pale); }
+.impact__stat--ring { display: grid; grid-template-columns: 104px 1fr; gap: 20px; align-items: center; }
+.impact__ring { width: 104px; height: 104px; transform: rotate(-90deg); }
+.impact__ring circle { fill: none; stroke-width: 10; }
+.impact__ring-track { stroke: rgba(255, 255, 255, .15); }
+.impact__ring-fill { stroke: var(--lime); stroke-linecap: round; stroke-dasharray: 100; stroke-dashoffset: 0; transition: stroke-dashoffset 1.4s ease-out; }
+.impact__check { fill: none; stroke: #fff; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; transform: rotate(90deg); transform-origin: 60px 60px; }
+.impact__ref { margin-left: 2px; color: var(--lime-pale); font-weight: 800; text-decoration: none; }
+.impact__note { margin: 0; font-size: .74rem; line-height: 1.5; color: rgba(255, 255, 255, .78); }
+/* animated state, switched on by main.js only when motion is allowed */
+.impact--animate .impact__cars svg { transition: opacity .3s ease, transform .3s ease; }
+.impact--animate:not(.is-visible) .impact__cars svg { opacity: 0; transform: translateY(6px); }
+.impact--animate:not(.is-visible) .impact__ring-fill { stroke-dashoffset: 100; }
 /* Benefits: compact cards, smaller than the cards elsewhere on the site */
 .benefits { margin-top: clamp(40px, 5vw, 56px); }
 .benefits h4 { margin-bottom: 18px; font-size: 1.128rem; }

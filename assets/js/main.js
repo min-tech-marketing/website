@@ -105,4 +105,35 @@
   });
 })();
 
+/* Case study infographic: count the numbers up, pop in the cars and fill the ring once it scrolls into view */
+(function () {
+  var panel = document.querySelector('.impact');
+  if (!panel || !('IntersectionObserver' in window)) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var counters = Array.prototype.slice.call(panel.querySelectorAll('[data-count]'));
+  var cars = panel.querySelectorAll('.impact__cars svg');
+  Array.prototype.forEach.call(cars, function (c, i) { c.style.transitionDelay = (0.4 + i * 0.08) + 's'; });
+  panel.classList.add('impact--animate');
+
+  function format(n, el) { return n.toLocaleString('en-CA') + (el.textContent.indexOf('%') > -1 ? '%' : ''); }
+
+  var observer = new IntersectionObserver(function (entries) {
+    if (!entries[0].isIntersecting) return;
+    observer.disconnect();
+    panel.classList.add('is-visible');
+    counters.forEach(function (el) {
+      var target = +el.getAttribute('data-count'), start = null, dur = 1400;
+      function step(t) {
+        if (!start) start = t;
+        var p = Math.min((t - start) / dur, 1), eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = format(Math.round(target * eased), el);
+        if (p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  }, { threshold: 0.35 });
+  observer.observe(panel);
+})();
+
 document.querySelectorAll('#year').forEach(function (el) { el.textContent = new Date().getFullYear(); });
