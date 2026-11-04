@@ -161,6 +161,8 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .section__media--light img { filter: saturate(.75) contrast(.95); mix-blend-mode: normal; }
 .section--light .about-intro { position: relative; }
 @media (max-width: 720px) { .section__media--light { width: 100%; height: 420px; opacity: .3; } }
+/* Buy Back follows Our Services on the same green, so drop the stacked padding: the gap above the panel matches the one below it */
+#services { padding-bottom: 0; }
 .section--light { background: #fff; color: var(--ink); }
 .section--light .eyebrow { color: var(--green); }
 .section--light .lede { color: var(--ink-muted); }
@@ -229,7 +231,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .loop__title { margin-bottom: 20px; text-align: center; font-size: clamp(1.222rem, 2.068vw, 1.598rem); font-weight: 800; letter-spacing: -.02em; }
 /* Circular graphic: ring drawn in a 900x600 SVG; nodes sit on its four points (top, right, bottom, left)
    and their labels sit outside the ring. Sizes use container units so it all scales together. */
-.loop__graphic { position: relative; max-width: 900px; margin: clamp(70px, 9vw, 96px) auto clamp(12px, 1.4vw, 20px); aspect-ratio: 3 / 2; container-type: inline-size; }
+.loop__graphic { position: relative; max-width: 900px; margin: clamp(70px, 9vw, 96px) auto clamp(4px, .8vw, 12px); aspect-ratio: 3 / 2; container-type: inline-size; }
 .loop__ring { position: absolute; inset: 0; width: 100%; height: 100%; color: var(--lime); }
 .loop__node { --s: clamp(56px, 9.4cqw, 84px); position: absolute; width: var(--s); height: var(--s); margin: calc(var(--s) / -2) 0 0 calc(var(--s) / -2); }
 .loop__node--top { left: 50%; top: 16.667%; }
