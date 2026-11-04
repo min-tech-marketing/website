@@ -73,7 +73,11 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
    --header-h is the shrunk height (used for anchor offsets); --header-h-lg the arrival height. */
 .site-header { position: fixed; inset: 0 0 auto; z-index: 50; }
 .topbar { background: var(--core); color: #fff; font-size: .752rem; }
-.topbar__inner { display: flex; align-items: center; justify-content: flex-end; min-height: 38px; }
+.topbar__inner { display: flex; align-items: center; justify-content: space-between; min-height: 38px; }
+.topbar__social { display: grid; place-items: center; width: 28px; height: 28px; margin-left: -6px; border-radius: 6px; color: #fff; transition: color .2s, background-color .2s; }
+.topbar__social:hover { color: var(--lime); background: rgba(255, 255, 255, .12); }
+.topbar__social svg { width: 16px; height: 16px; }
+.nav__social { display: none; }
 .topbar__nav ul { display: flex; gap: 4px; }
 .topbar__nav a { display: block; padding: 6px 12px; color: #fff; font-weight: 600; letter-spacing: .04em; text-decoration: none; border-radius: 999px; }
 .topbar__nav a:hover { background: rgba(255, 255, 255, .14); }
@@ -112,6 +116,8 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   .nav__list--company { display: flex; margin-top: 10px; }
   .nav__list--company a { padding: 11px 4px; font-size: .865rem; font-weight: 600; color: var(--ink-muted); border: 0; }
   .nav__cta { margin: 18px 0 0; }
+  .nav__social { display: inline-flex; align-items: center; gap: 10px; padding: 11px 4px; font-size: .865rem; font-weight: 600; color: var(--ink-muted); text-decoration: none; }
+  .nav__social svg { width: 18px; height: 18px; color: #0a66c2; }
 }
 
 /* ---------- Hero ---------- */
