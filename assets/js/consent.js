@@ -15,7 +15,7 @@
   var MAX_AGE_MS = 365 * 24 * 60 * 60 * 1000;
   var CLARITY_ID = 'z8e45o6ak9';
   var HUBSPOT_SRC = '//js-na3.hs-scripts.com/343635070.js';
-  var PRIVACY_URL = 'privacy-policy.html#cookies';
+  var PRIVACY_URL = '/privacy-policy.html#cookies';
 
   window.dataLayer = window.dataLayer || [];
   function gtag() { dataLayer.push(arguments); }
