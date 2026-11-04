@@ -1,5 +1,9 @@
 # Min-Tech launch-day runbook
 
+> **Launched Nov 4, 2026.** DNS switched, `www.min-tech.ca` live on Vercel with a Let's Encrypt certificate,
+> `min-tech.ca` and all old URLs redirect, robots/noindex opened (404 stays noindex), smoke test passed.
+> Remaining: section 5 (Search Console, GA/Clarity URLs, HubSpot domain, LinkedIn Post Inspector) and "After launch".
+
 Switches `min-tech.ca` from the old site to this Vercel project. Expect about 15 minutes of work,
 plus up to an hour for DNS to settle everywhere. The old site stops being served as soon as step 2 is done.
 
