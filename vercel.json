@@ -4,6 +4,17 @@
   "trailingSlash": false,
   "redirects": [
     {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "min-tech.ca"
+        }
+      ],
+      "destination": "https://www.min-tech.ca/",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [
         {
