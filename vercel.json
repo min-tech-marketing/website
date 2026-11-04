@@ -3,13 +3,50 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "redirects": [
-    { "source": "/spill-control-products", "destination": "/#products", "permanent": true },
-    { "source": "/recycling", "destination": "/#buy-back", "permanent": true },
-    { "source": "/corporate-responsibility", "destination": "/about#sustainability", "permanent": true },
-    { "source": "/contact", "destination": "/#contact", "permanent": true }
+    {
+      "source": "/spill-control-products",
+      "destination": "/#case-study",
+      "permanent": true
+    },
+    {
+      "source": "/recycling",
+      "destination": "/#buy-back",
+      "permanent": true
+    },
+    {
+      "source": "/corporate-responsibility",
+      "destination": "/about#sustainability",
+      "permanent": true
+    },
+    {
+      "source": "/contact",
+      "destination": "/#contact",
+      "permanent": true
+    },
+    {
+      "source": "/shop",
+      "destination": "/#case-study",
+      "permanent": true
+    }
   ],
   "headers": [
-    { "source": "/assets/img/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=604800" }] },
-    { "source": "/assets/(css|js)/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }] }
+    {
+      "source": "/assets/img/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800"
+        }
+      ]
+    },
+    {
+      "source": "/assets/(css|js)/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    }
   ]
 }
