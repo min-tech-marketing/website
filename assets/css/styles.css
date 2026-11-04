@@ -234,7 +234,8 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 /* ---------- Buy back: a navy, lime-outlined panel so it stands apart from the green blocks ---------- */
 .buyback-section { background: radial-gradient(50% 60% at 0% 100%, rgba(0, 50, 30, .45), transparent 70%), var(--core); }
 .buyback-panel { position: relative; overflow: hidden; padding: clamp(32px, 5vw, 72px); border: 2px solid var(--lime); border-radius: 36px;
-  background: radial-gradient(55% 70% at 100% 0%, rgba(165, 205, 57, .16), transparent 70%), radial-gradient(45% 60% at 0% 100%, rgba(0, 136, 84, .28), transparent 70%), var(--navy);
+  /* soft light from the top-right corner toward the middle, behind the badge */
+  background: radial-gradient(75% 90% at 100% 0%, rgba(165, 205, 57, .3) 0%, rgba(0, 136, 84, .18) 45%, transparent 72%), radial-gradient(45% 60% at 0% 100%, rgba(0, 136, 84, .28), transparent 70%), var(--navy);
   box-shadow: 0 0 0 8px rgba(165, 205, 57, .12), 0 40px 80px -40px rgba(0, 30, 18, .8); }
 .buyback-panel__top { display: grid; grid-template-columns: 1.35fr 1fr; gap: clamp(32px, 5vw, 72px); align-items: center; }
 .buyback-panel p { color: rgba(255, 255, 255, .82); }
