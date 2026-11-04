@@ -1,8 +1,10 @@
 /* Cookie consent for Min-Tech (same pattern as the other CLN sites).
-   Loaded in <head> so stored choices apply before anything else runs.
+   Loaded in <head> before the Google tag so consent defaults apply first.
 
-   - Analytics (Microsoft Clarity) is off until the visitor opts in, and its
-     script is only loaded after opt-in.
+   - Analytics (Google Analytics, Microsoft Clarity) is off until the visitor opts in.
+   - Google Analytics always loads, but in Consent Mode: no cookies are set
+     unless analytics is accepted.
+   - Clarity is only loaded after opt-in.
    - The choice is stored in localStorage for 12 months, then asked again.
    - Any element with [data-cookie-settings] reopens the preferences.
    - PRIVACY_URL adds a "Read our Privacy Policy" link to the banner; leave it empty to hide the link. */
@@ -12,6 +14,19 @@
   var MAX_AGE_MS = 365 * 24 * 60 * 60 * 1000;
   var CLARITY_ID = 'z8e45o6ak9';
   var PRIVACY_URL = 'privacy-policy.html#cookies';
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  window.gtag = window.gtag || gtag;
+
+  // Min-Tech has no advertising or marketing tools, so ad signals stay denied.
+  gtag('consent', 'default', {
+    analytics_storage: 'denied',
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    wait_for_update: 500
+  });
 
   function read() {
     try {
@@ -36,6 +51,7 @@
   }
 
   function apply(c) {
+    window.gtag('consent', 'update', { analytics_storage: c.analytics ? 'granted' : 'denied' });
     if (c.analytics && !loaded.clarity) {
       window.clarity = window.clarity || function () { (window.clarity.q = window.clarity.q || []).push(arguments); };
       loadScript('clarity', 'https://www.clarity.ms/tag/' + CLARITY_ID);
@@ -78,7 +94,7 @@
           '<label class="cookie-consent__option"><input type="checkbox" checked disabled>' +
             '<span><strong>Essential</strong> Required for the site to work. Always on.</span></label>' +
           '<label class="cookie-consent__option"><input type="checkbox" name="analytics">' +
-            '<span><strong>Analytics</strong> Microsoft Clarity helps us see which pages are useful and how visitors navigate the site.</span></label>' +
+            '<span><strong>Analytics</strong> Google Analytics and Microsoft Clarity help us see which pages are useful and how visitors navigate the site.</span></label>' +
         '</div>' +
         '<div class="cookie-consent__actions">' +
           '<button type="button" class="btn btn--outline" data-action="manage">Manage preferences</button>' +
