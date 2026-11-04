@@ -309,8 +309,6 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 #hubspot-contact-form .form-columns-2:has(.hs-fieldtype-checkbox) { flex-direction: column; gap: 0; }
 #hubspot-contact-form .form-columns-2:has(.hs-fieldtype-checkbox) .hs-form-field { flex: none; width: 100% !important; }
 #hubspot-contact-form .form-columns-2 .hs-form-field, #hubspot-contact-form .form-columns-1 .hs-form-field { float: none !important; padding: 0 !important; }
-/* Phone was dropped from the brief; hidden here until it's removed from the HubSpot form itself */
-#hubspot-contact-form .hs_phone { display: none; }
 #hubspot-contact-form .hs-form-field { margin-bottom: 18px; }
 #hubspot-contact-form .input { margin: 0 !important; }
 #hubspot-contact-form .hs-form-field > label { display: block; margin-bottom: 6px; font-size: .827rem; font-weight: 700; color: var(--ink); }
@@ -321,12 +319,14 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 #hubspot-contact-form input.hs-input:focus, #hubspot-contact-form textarea.hs-input:focus, #hubspot-contact-form select.hs-input:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 4px rgba(0, 136, 84, .15); }
 #hubspot-contact-form textarea.hs-input { min-height: 130px; resize: vertical; }
 /* "I'm Interested In" checkboxes */
-#hubspot-contact-form .inputs-list { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+/* "I'm Interested In": checkbox + label pairs run inline across the form and wrap when out of room;
+   a label too long for one line wraps with its text indented past the checkbox */
+#hubspot-contact-form .inputs-list { display: flex; flex-wrap: wrap; gap: 10px 22px; margin: 0; padding: 0; list-style: none; }
 #hubspot-contact-form .hs-form-checkbox, #hubspot-contact-form .hs-form-booleancheckbox { margin: 0; }
-#hubspot-contact-form .hs-form-checkbox-display { display: flex; align-items: center; gap: 10px; margin: 0; padding: 10px 14px; border: 1px solid #dfe5ec; border-radius: 12px; background: #fff; font-size: .884rem; font-weight: 500; color: var(--ink); cursor: pointer; transition: border-color .2s, background-color .2s; }
-#hubspot-contact-form .hs-form-checkbox-display:hover { border-color: var(--green); }
-#hubspot-contact-form .hs-form-checkbox-display:has(input:checked) { border-color: var(--green); background: #eef6e0; }
-#hubspot-contact-form input.hs-input[type="checkbox"] { width: 18px; height: 18px; flex-shrink: 0; margin: 0; accent-color: var(--green); }
+#hubspot-contact-form .hs-form-checkbox-display { display: flex; align-items: flex-start; gap: 8px; margin: 0; font-size: .827rem; font-weight: 500; line-height: 1.4; color: var(--ink); cursor: pointer; }
+#hubspot-contact-form .hs-form-checkbox-display:hover { color: var(--green); }
+#hubspot-contact-form .hs-form-checkbox-display:has(input:checked) { color: var(--green); font-weight: 700; }
+#hubspot-contact-form input.hs-input[type="checkbox"] { width: 16px; height: 16px; flex-shrink: 0; margin: 1px 0 0; accent-color: var(--green); }
 #hubspot-contact-form .hs-form-checkbox-display > span, #hubspot-contact-form .hs-form-booleancheckbox-display > span { margin: 0 !important; }
 #hubspot-contact-form .hs-error-msgs { margin: 6px 0 0; padding: 0; list-style: none; }
 #hubspot-contact-form .hs-error-msgs label { color: #b42318; font-size: .78rem; font-weight: 600; }
@@ -415,6 +415,9 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .site-footer li { margin-bottom: 8px; }
 .site-footer a { color: rgba(255, 255, 255, .82); text-decoration: none; }
 .site-footer a:hover { color: var(--lime); }
+.footer__map { display: block; width: 100%; height: 160px; margin-top: 16px; border: 1px solid var(--line-dark); border-radius: 12px; background: var(--core-deep); }
+.footer__map-link { display: inline-block; margin-top: 8px; font-size: .8rem; font-weight: 700; color: var(--lime) !important; }
+.footer__map-link:hover { text-decoration: underline; }
 .footer__network { display: flex; align-items: center; gap: 18px; padding: 28px 0; border-top: 1px solid var(--line-dark); }
 .footer__network img { flex: none; width: 200px; padding: 8px 10px; border-radius: 10px; background: #fff; }
 .footer__network p { margin: 0; max-width: 520px; font-size: .733rem; }
