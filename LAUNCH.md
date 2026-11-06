@@ -84,8 +84,8 @@ within a few minutes. Nothing in the old site's hosting is touched by this launc
 
 ## After launch
 
-- Replace the interim policies when Charlie's final versions arrive (keep the names
-  Min-Tech Marketing Inc. and Min-Tech Environmental Inc.).
+- Final policies (Charlie, Nov 6, 2026) are live. Legal entity names must be verbatim wherever "Inc." is used:
+  "Marketing Mintech Inc./Mintech Marketing Inc." and "Mintech Environmental Inc.". "Min-Tech" alone is the brand.
 - Send one real test submission and confirm it lands in HubSpot.
 - Remove the `min-tech-preview-v2` alias; decide whether to keep `min-tech-preview-v1` as staging.
 - Watch GA, Clarity and HubSpot for the first week.
