@@ -101,7 +101,7 @@
           '<label class="cookie-consent__option"><input type="checkbox" name="analytics">' +
             '<span><strong>Analytics</strong> Google Analytics and Microsoft Clarity help us see which pages are useful and how visitors navigate the site.</span></label>' +
           '<label class="cookie-consent__option"><input type="checkbox" name="marketing">' +
-            '<span><strong>Marketing</strong> HubSpot helps us follow up on enquiries and measure our campaigns.</span></label>' +
+            '<span><strong>Marketing</strong> Lets Google and Microsoft use your visit to measure and improve our advertising.</span></label>' +
         '</div>' +
         '<div class="cookie-consent__actions">' +
           '<button type="button" class="btn btn--outline" data-action="manage">Manage preferences</button>' +
